@@ -57,6 +57,28 @@ class Concert:
             self._date = value
         else:
             raise ValueError("Date must be a non-empty string")
+        
+    @property
+    def band(self):
+        return self._band
+    
+    @band.setter
+    def band(self, value):
+        if isinstance(value, Band):
+            self._band = value
+        else:
+            raise TypeError("Band must be an instance of the type Band")
+        
+    @property
+    def venue(self):
+        return self._venue
+    
+    @venue.setter
+    def venue(self, value):
+        if isinstance(value, Venue):
+            self._venue = value
+        else:
+            raise TypeError("Venue must be an instance of the type Venue")
 
     def hometown_show(self):
         pass

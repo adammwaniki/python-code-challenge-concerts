@@ -24,7 +24,7 @@ class Band:
     
     @hometown.setter
     def hometown(self, value: str):
-        # Inserting an extra condition to handle corner cases like the someone declaring the title as None
+        # Inserting an extra condition to handle corner cases like someone declaring the title as None
         if hasattr(self, '_hometown') and self._hometown is not None:
             raise AttributeError("Hometown can only be set once.")
         if isinstance(value, str) and len(value) >= 1:
@@ -43,15 +43,17 @@ class Band:
     def venues(self):
         result = set()
         for concert in self.concerts():
-            if concert.venue == self:
-                result.add(concert.band)
+            result.add(concert.venue)
         return list(result)
 
     def play_in_venue(self, venue, date):
-        pass
+        # Takes a `Venue` instance and a date as arguments. Creates and returns a new concert object for the band in that venue on that date
+        if not isinstance(venue, Venue):
+            raise ValueError("Venue must be of type Venue")
+        return Concert(date, self, venue)
 
     def all_introductions(self):
-        pass
+        return [concert.introduction() for concert in self.concerts()]
 
 
 class Concert:
@@ -97,14 +99,8 @@ class Concert:
         else:
             raise TypeError("Venue must be an instance of the type Venue")
         
-    #def hometown_show(self):
-    #    if self.venue.city == self.band.hometown:
-    #        return True
-    #    else:
-    #        return False
-
-    # Alternative number 1
     def hometown_show(self):
+        # Making use of a comparison operator to return a boolean
         return self.venue.city == self.band.hometown
 
     def introduction(self):
@@ -113,7 +109,7 @@ class Concert:
 
 class Venue:
     # a list of all the Venue objects
-    all =[]
+    all = []
 
     def __init__(self, name, city):
         self.name = name
@@ -152,7 +148,6 @@ class Venue:
 
     def bands(self):
         result = set()
-        for concert in Concert.all:
-            if concert.venue == self:
-                result.add(concert.band)
+        for concert in self.concerts():
+            result.add(concert.band)
         return list(result)

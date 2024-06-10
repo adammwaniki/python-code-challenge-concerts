@@ -1,7 +1,11 @@
 class Band:
+
+    all = []
     def __init__(self, name, hometown):
         self.name = name
         self.hometown = hometown
+        Band.all.append(self)
+
 
     @property
     def name(self):
@@ -12,7 +16,7 @@ class Band:
         if isinstance(value, str) and len(value) >= 1:
             self._name = value
         else:
-            raise ValueError("Name must be a non-empty string")
+            raise ValueError("Name cannot be an empty string")
     
     @property
     def hometown(self):
@@ -26,13 +30,22 @@ class Band:
         if isinstance(value, str) and len(value) >= 1:
             self._hometown = value
         else:
-            raise ValueError("Hometown must be a non-empty string.")
+            raise ValueError("Hometown cannot be an empty string.")
 
     def concerts(self):
-        pass
+        result = []
+        for concert in Concert.all:
+            if concert.band == self:
+                result.append(concert)
+        return result
+
 
     def venues(self):
-        pass
+        result = set()
+        for concert in self.concerts():
+            if concert.venue == self:
+                result.add(concert.band)
+        return list(result)
 
     def play_in_venue(self, venue, date):
         pass
@@ -42,10 +55,14 @@ class Band:
 
 
 class Concert:
+    # a list of all the concerts
+    all = []
+
     def __init__(self, date, band, venue):
         self.date = date
         self.band = band
         self.venue = venue
+        Concert.all.append(self)
 
     @property
     def date(self):
@@ -56,7 +73,7 @@ class Concert:
         if isinstance(value, str) and len(value) >= 1:
             self._date = value
         else:
-            raise ValueError("Date must be a non-empty string")
+            raise ValueError("Date cannot be an empty string")
         
     @property
     def band(self):
@@ -79,18 +96,29 @@ class Concert:
             self._venue = value
         else:
             raise TypeError("Venue must be an instance of the type Venue")
+        
+    #def hometown_show(self):
+    #    if self.venue.city == self.band.hometown:
+    #        return True
+    #    else:
+    #        return False
 
+    # Alternative number 1
     def hometown_show(self):
-        pass
+        return self.venue.city == self.band.hometown
 
     def introduction(self):
-        pass
+        return f"Hello {self.venue.city}!!!!! We are {self.band.name} and we're from {self.band.hometown}"
 
 
 class Venue:
+    # a list of all the Venue objects
+    all =[]
+
     def __init__(self, name, city):
         self.name = name
         self.city = city
+        Venue.all.append(self)
 
     @property
     def name(self):
@@ -115,7 +143,16 @@ class Venue:
             raise ValueError("City must be a non-empty string")
 
     def concerts(self):
-        pass
+        result = []
+        for concert in Concert.all:
+            if concert.venue == self:
+                result.append(concert)
+        return result
+        
 
     def bands(self):
-        pass
+        result = set()
+        for concert in Concert.all:
+            if concert.venue == self:
+                result.add(concert.band)
+        return list(result)

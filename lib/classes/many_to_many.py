@@ -151,3 +151,12 @@ class Venue:
         for concert in self.concerts():
             result.add(concert.band)
         return list(result)
+    
+    # Takes in a date string(parameter)
+    def concert_on(self, date):
+        # Finds and returns the first concert object on that date at that venue.
+        for concert in self.concerts():
+            if concert.date == date:
+                return concert
+        # If there is no concert scheduled return None
+        return None

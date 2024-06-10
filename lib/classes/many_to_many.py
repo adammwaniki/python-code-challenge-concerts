@@ -47,6 +47,17 @@ class Concert:
         self.band = band
         self.venue = venue
 
+    @property
+    def date(self):
+        return self._date
+    
+    @date.setter
+    def date(self, value: str):
+        if isinstance(value, str) and len(value) >= 1:
+            self._date = value
+        else:
+            raise ValueError("Date must be a non-empty string")
+
     def hometown_show(self):
         pass
 
@@ -58,6 +69,28 @@ class Venue:
     def __init__(self, name, city):
         self.name = name
         self.city = city
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value: str):
+        if isinstance(value, str) and len(value) >= 1:
+            self._name = value
+        else:
+            raise ValueError("Name must be a non-empty string")
+    
+    @property
+    def city(self):
+        return self._city
+    
+    @city.setter
+    def city(self, value: str):
+        if isinstance(value, str) and len(value) >= 1:
+            self._city = value
+        else:
+            raise ValueError("City must be a non-empty string")
 
     def concerts(self):
         pass

@@ -3,6 +3,31 @@ class Band:
         self.name = name
         self.hometown = hometown
 
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value: str):
+        if isinstance(value, str) and len(value) >= 1:
+            self._name = value
+        else:
+            raise ValueError("Name must be a non-empty string")
+    
+    @property
+    def hometown(self):
+        return self._hometown
+    
+    @hometown.setter
+    def hometown(self, value: str):
+        # Inserting an extra condition to handle corner cases like the someone declaring the title as None
+        if hasattr(self, '_hometown') and self._hometown is not None:
+            raise AttributeError("Hometown can only be set once.")
+        if isinstance(value, str) and len(value) >= 1:
+            self._hometown = value
+        else:
+            raise ValueError("Hometown must be a non-empty string.")
+
     def concerts(self):
         pass
 
